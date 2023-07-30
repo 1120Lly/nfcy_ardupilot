@@ -275,7 +275,7 @@ void AP_Periph_FW::init()
     start_ms = AP_HAL::native_millis();
 }
 
-#if (defined(HAL_PERIPH_NEOPIXEL_COUNT_WITHOUT_NOTIFY) && HAL_PERIPH_NEOPIXEL_COUNT_WITHOUT_NOTIFY == 8) || defined(HAL_PERIPH_ENABLE_NOTIFY)
+#if (defined(HAL_PERIPH_NEOPIXEL_COUNT_WITHOUT_NOTIFY) && HAL_PERIPH_NEOPIXEL_COUNT_WITHOUT_NOTIFY != 0) || defined(HAL_PERIPH_ENABLE_NOTIFY)
 /*
   rotating rainbow pattern on startup
  */
@@ -324,7 +324,7 @@ void AP_Periph_FW::update_rainbow()
     static uint8_t step;
     const uint8_t nsteps = ARRAY_SIZE(rgb_rainbow);
     float brightness = 0.3;
-    for (uint8_t n=0; n<8; n++) {
+    for (uint8_t n=0; n<HAL_PERIPH_NEOPIXEL_COUNT_WITHOUT_NOTIFY; n++) {
         uint8_t i = (step + n) % nsteps;
 #if defined (HAL_PERIPH_ENABLE_NOTIFY)
         periph.notify.handle_rgb(
@@ -476,7 +476,7 @@ void AP_Periph_FW::update()
 
     can_update();
 
-#if (defined(HAL_PERIPH_NEOPIXEL_COUNT_WITHOUT_NOTIFY) && HAL_PERIPH_NEOPIXEL_COUNT_WITHOUT_NOTIFY == 8) || defined(HAL_PERIPH_ENABLE_NOTIFY)
+#if (defined(HAL_PERIPH_NEOPIXEL_COUNT_WITHOUT_NOTIFY) && HAL_PERIPH_NEOPIXEL_COUNT_WITHOUT_NOTIFY != 0) || defined(HAL_PERIPH_ENABLE_NOTIFY)
     update_rainbow();
 #endif
 #ifdef HAL_PERIPH_ENABLE_ADSB
